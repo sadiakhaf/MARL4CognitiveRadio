@@ -73,9 +73,10 @@ class Agent(SU):
 
 
 class DQNagent(Agent):
-    def __init__(self, lr=0.1, gamma=0.1, numEpisodes=200, epsilon_type='regular', horizon = 20, action_space = None, num_agents = 5, num_channels = 10, num_possible_actions =3):
+    def __init__(self, lr=0.1, gamma=0.1, numEpisodes=200, epsilon_type='regular', horizon = 20, action_space = None,
+     num_agents = 5, num_channels = 10, num_possible_actions =3, BATCH_SIZE = 60):
         super(DQNagent, self).__init__(lr=lr, gamma=gamma, numEpisodes=numEpisodes, epsilon_type=epsilon_type, 
-        horizon = horizon, action_space = action_space, num_agents = num_agents, num_channels = num_channels, num_possible_actions =num_possible_actions, BATCH_SIZE = 60)
+        horizon = horizon, action_space = action_space, num_agents = num_agents, num_channels = num_channels, num_possible_actions =num_possible_actions)
         self.state_space_n = 1
         self.action_space_len = num_agents*num_channels*num_possible_actions
         self.memory = ReplayMemory(10000)

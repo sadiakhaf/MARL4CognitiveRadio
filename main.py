@@ -35,11 +35,11 @@ action_space_len = num_SU*num_PU*num_possible_actions
 if algo == 'DQN':
     agent = DQNagent(lr=lr, gamma=gamma, numEpisodes=num_episodes, epsilon_type='regular', 
     horizon = Horizon, action_space = env.action_space,num_channels=num_PU, num_agents=num_SU, 
-    num_possible_actions=num_possible_actions)
+    num_possible_actions=num_possible_actions, BATCH_SIZE = BATCH_SIZE)  
 else:
     agent = Agent(lr=lr, gamma=gamma, numEpisodes=num_episodes, epsilon_type='regular', 
     horizon = Horizon, action_space = env.action_space,num_channels=num_PU, num_agents=num_SU, 
-    num_possible_actions=num_possible_actions, BATCH_SIZE = BATCH_SIZE)
+    num_possible_actions=num_possible_actions)
 
 running_delta = []  # running delta (e.g. the last running_len delta update)
 running_acc = []  # running accuracy (e.g. the last running_len accuracy)
