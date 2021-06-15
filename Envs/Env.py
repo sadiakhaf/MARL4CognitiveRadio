@@ -10,7 +10,7 @@ from PUs.PU import PU
 
 class Env(gym.Env): 
 
-    def __init__(self, Horizon=20, num_PU =10, num_SU=5) -> None:
+    def __init__(self, Horizon=20, num_PU =10, num_SU=5, num_possible_actions = 2) -> None:
         super(Env,self).__init__()
         
         self.observation_space = spaces.Discrete(Horizon + 1 )
@@ -19,7 +19,7 @@ class Env(gym.Env):
         self.num_agents = num_SU
         self.num_PU = num_PU
         self.createPU(Horizon)
-        self.action_space = spaces.Box(low=0, high=2, shape=(self.num_agents, self.num_PU),dtype=int)
+        self.action_space = spaces.Box(low=0, high=num_possible_actions-1, shape=(self.num_agents, self.num_PU),dtype=int)
         
 
     def createPU (self, Horizon):
@@ -48,19 +48,19 @@ class Env(gym.Env):
         # dimmension 0 
         
         
-        r = torch.zeros(self.num_agents,1)
+        r = torch.zeros(self.num_agents,self.num_PU)
         
         self.Timer = int(o)
         if self.Timer < self.Horizon:  # non-terminal observation, horizon not reached
             # r = torch.sum((action == self.TxPattern[self.Timer,:]).astype(torch.int)) 
             
             for i_agent in range(self.num_agents):
-                r[i_agent] = torch.sum((action[i_agent,:] == self.TxPattern[self.Timer,:]).long())
+                r[i_agent,:] = (action[i_agent,:] == self.TxPattern[self.Timer,:]).long()
 
 
         else:  # gym horizon reached
             for i_agent in range(self.num_agents):
-                r[i_agent] = 0.0  
+                r[i_agent,:] = torch.zeros(1,self.num_PU)
             
 
         self.Timer += 1  # increment our time-step / observation
